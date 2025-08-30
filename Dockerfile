@@ -4,23 +4,21 @@ FROM python:3.11-slim
 # Define diretório de trabalho
 WORKDIR /app
 
-# Copia os arquivos de requisitos e instala
+# Copia os arquivos de requisitos
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia o resto do projeto
+# Instala dependências e gunicorn
+RUN pip install --no-cache-dir -r requirements.txt gunicorn
+
+# Copia o restante do projeto
 COPY . .
 
-# Define variável de ambiente para Flask
+# Variáveis de ambiente
 ENV FLASK_APP=app.py
-ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_ENV=production
 
 # Expõe a porta que o Render vai usar
 EXPOSE 10000
 
-# Instala gunicorn
-RUN pip install gunicorn
-
-# Comando para iniciar a aplicação
+# Comando para iniciar a aplicação com gunicorn
 CMD ["gunicorn", "app:app", "-b", "0.0.0.0:10000", "--workers=4"]
