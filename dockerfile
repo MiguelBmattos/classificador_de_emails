@@ -19,5 +19,8 @@ ENV FLASK_ENV=production
 # Expõe a porta que o Render vai usar
 EXPOSE 10000
 
-# Comando para iniciar o Flask
-CMD ["flask", "run", "--host=0.0.0.0", "--port=10000"]
+# Instala gunicorn
+RUN pip install gunicorn
+
+# Comando para iniciar a aplicação
+CMD ["gunicorn", "app:app", "-b", "0.0.0.0:10000", "--workers=4"]
