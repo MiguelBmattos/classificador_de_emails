@@ -1,0 +1,30 @@
+{
+    "Produtivo": [
+        {
+            "texto": "\nOlá equipe de atendimento,\n\nGostaria  de  solicitar  uma  atualização  sobre  o  status  do  pagamento  referente  à  fatura  nº  4587,\n\nemitida em 10/08/2025.\n\nAté o momento, não recebi a confirmação do processamento e preciso garantir que o pagamento\n\nfoi recebido para evitar atraso em nossos registros contábeis.\n\nAguardo retorno com a confirmação ou qualquer pendência que precise ser resolvida.\n\nAtenciosamente,\n\nJoão Silva\n\nFinanceiro - Empresa ABC\n\n\f",
+            "resposta": "Prezado João Silva,\n\nAgradecemos por entrar em contato. Vamos verificar o status do pagamento referente à fatura nº 4587, emitida em 10/08/2025, e retornaremos o mais breve possível com a confirmação do processamento ou qualquer pendência que precise ser resolvida.\n\nFique tranquilo que estamos empenhados em garantir que tudo esteja em ordem em seus registros contábeis.\n\nAtenciosamente,\n\nEquipe de Atendimento - Empresa ABC",
+            "data_hora": "2025-08-30T19:54:16.733160",
+            "categoria": "Produtivo"
+        },
+        {
+            "texto": "Não consigo fazer login, aparece mensagem de usuário inválido.",
+            "resposta": "Olá,\n\nObrigado por entrar em contato. Para podermos ajudar com o seu problema de login, precisamos de mais informações. Por favor, nos forneça o seu nome de usuário e detalhes do problema que está enfrentando para que possamos investigar e resolver a situação o mais rápido possível.\n\nFicamos no aguardo das informações para podermos ajudar da melhor forma possível.\n\nAtenciosamente,\nEquipe de Suporte da Empresa",
+            "data_hora": "2025-08-30T19:54:51.876438",
+            "categoria": "Produtivo"
+        }
+    ],
+    "Improdutivo": [
+        {
+            "texto": "\nOlá equipe,\n\nApenas  queria  desejar  a  todos  um  excelente  dia!  Espero  que  tudo  esteja  correndo  bem  e  que\n\naproveitem o dia sem preocupações.\n\nAbraços,\n\nMaria\n\n\f",
+            "resposta": "Obrigado pelo seu email, Maria. Tenha também um excelente dia!",
+            "data_hora": "2025-08-30T19:54:08.206575",
+            "categoria": "Improdutivo"
+        },
+        {
+            "texto": "\nInvista agora e ganhe 200% de lucro em uma semana neste link!",
+            "resposta": "Obrigado pelo contato, porém não realizamos investimentos com promessas de lucros exorbitantes em curto prazo. Recomendamos que busque por opções de investimento mais seguras e confiáveis. Caso tenha alguma dúvida sobre nossos serviços financeiros, estaremos à disposição para ajudar.",
+            "data_hora": "2025-08-30T19:54:34.083515",
+            "categoria": "Improdutivo"
+        }
+    ]
+}
