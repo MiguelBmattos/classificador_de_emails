@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Classificador de Emails</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header>
+        <h1>Classificador de Emails ✉️</h1>
+    </header>
+
+    <main>
+        <!-- Painel Esquerdo -->
+        <div class="left-panel">
+            <div class="form-box">
+                <form action="/classificar" method="post" enctype="multipart/form-data">
+                    <h3>Inserir texto do email:</h3>
+                    <textarea name="email_texto" rows="5" placeholder="Cole aqui o texto do email"></textarea>
+
+                    <h3>Ou fazer upload de arquivo (.txt ou .pdf):</h3>
+                    <input type="file" name="email_arquivo" accept=".txt,.pdf"><br>
+
+                    <button type="submit">Classificar</button>
+                </form>
+            </div>
+
+            <!-- Última classificação -->
+            {% if resultado %}
+            <div class="resultado">
+                <h2>Última Classificação</h2>
+                <p><strong>Email inserido:</strong> {{ resultado.texto }}</p>
+                <p><strong>Categoria:</strong> {{ resultado.categoria }}</p>
+                <p><strong>Resposta:</strong> {{ resultado.resposta }}</p>
+                <small><em>{{ resultado.data_hora.strftime('%d/%m/%Y %H:%M:%S') }}</em></small>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Painel Direito -->
+        {% if historico %}
+        <div class="right-panel">
+            <h2>📂 Histórico de Emails</h2>
+            <div class="historico">
+                <!-- PRODUTIVOS -->
+                <div class="categoria-box produtivo">
+                    <div class="categoria-header">
+                        <h3>✅ Produtivos</h3>
+                        <div class="sort-buttons">
+                            <form action="/ordenar" method="post">
+                                <input type="hidden" name="categoria" value="Produtivo">
+                                <input type="hidden" name="ordem" value="recentes">
+                                <button type="submit">Mais Recentes</button>
+                            </form>
+                            <form action="/ordenar" method="post">
+                                <input type="hidden" name="categoria" value="Produtivo">
+                                <input type="hidden" name="ordem" value="antigos">
+                                <button type="submit">Mais Antigos</button>
+                            </form>
+                        </div>
+                    </div>
+                    {% if historico['Produtivo'] %}
+                        {% for email in historico['Produtivo'] %}
+                        <div class="email-box">
+                            <strong>Email:</strong> {{ email.texto|e }}<br>
+                            <strong>Resposta:</strong> {{ email.resposta|e }}
+                            <small><em>{{ email.data_hora.strftime('%d/%m/%Y %H:%M:%S') }}</em></small>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p><em>Nenhum email produtivo até agora.</em></p>
+                    {% endif %}
+                </div>
+
+                <!-- IMPRODUTIVOS -->
+                <div class="categoria-box improdutivo">
+                    <div class="categoria-header">
+                        <h3>❌ Improdutivos</h3>
+                        <div class="sort-buttons">
+                            <form action="/ordenar" method="post">
+                                <input type="hidden" name="categoria" value="Improdutivo">
+                                <input type="hidden" name="ordem" value="recentes">
+                                <button type="submit">Mais Recentes</button>
+                            </form>
+                            <form action="/ordenar" method="post">
+                                <input type="hidden" name="categoria" value="Improdutivo">
+                                <input type="hidden" name="ordem" value="antigos">
+                                <button type="submit">Mais Antigos</button>
+                            </form>
+                        </div>
+                    </div>
+                    {% if historico['Improdutivo'] %}
+                        {% for email in historico['Improdutivo'] %}
+                        <div class="email-box">
+                            <strong>Email:</strong> {{ email.texto|e }}<br>
+                            <strong>Resposta:</strong> {{ email.resposta|e }}
+                            <small><em>{{ email.data_hora.strftime('%d/%m/%Y %H:%M:%S') }}</em></small>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p><em>Nenhum email improdutivo até agora.</em></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </main>
+</body>
+</html>
