@@ -55,19 +55,3 @@ def obter_ultima_classificacao(historico):
     if "Ultima" in historico and historico["Ultima"]:
         return historico["Ultima"][0]
     return None
-
-
-def ordenar_historico(historico, ordenacao_categorias):
-    """Ordena o histórico de emails de acordo com a configuração de ordenação."""
-    return {
-        "Produtivo": sorted(
-            historico.get("Produtivo", []),
-            key=lambda x: x["data_hora"],
-            reverse=ordenacao_categorias["Produtivo"]
-        ),
-        "Improdutivo": sorted(
-            historico.get("Improdutivo", []),
-            key=lambda x: x["data_hora"],
-            reverse=ordenacao_categorias["Improdutivo"]
-        )
-    }
