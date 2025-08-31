@@ -6,23 +6,18 @@ from services import (
     gerar_classificacao_e_resposta,
     carregar_historico,
     adicionar_email,
-    ordenar_historico,
     obter_ultima_classificacao
 )
 
 app = Flask(__name__)
 
-# Ordenação por categoria (True = mais recentes no topo)
-ordenacao_categorias = {"Produtivo": True, "Improdutivo": True}
-
 @app.route("/", methods=["GET"])
 def home():
     historico_emails = carregar_historico()
-    historico_ordenado = ordenar_historico(historico_emails, ordenacao_categorias)
     ultima_classificacao = obter_ultima_classificacao(historico_emails)
     return render_template(
         "index.html",
-        historico=historico_ordenado,
+        historico=historico_emails,
         resultado=ultima_classificacao
     )
 
@@ -45,13 +40,12 @@ def classificar():
     historico_emails = carregar_historico()
     adicionar_email(historico_emails, categoria, email_atual)
 
-    historico_ordenado = ordenar_historico(historico_emails, ordenacao_categorias)
     ultima_classificacao = obter_ultima_classificacao(historico_emails)
 
     return render_template(
         "index.html",
         resultado=ultima_classificacao,
-        historico=historico_ordenado
+        historico=historico_emails
     )
 
 @app.route("/ordenar", methods=["POST"])
@@ -59,16 +53,22 @@ def ordenar():
     categoria = request.form.get("categoria")
     ordem = request.form.get("ordem", "recentes")
 
-    if categoria in ordenacao_categorias:
-        ordenacao_categorias[categoria] = (ordem == "recentes")
-
     historico_emails = carregar_historico()
-    historico_ordenado = ordenar_historico(historico_emails, ordenacao_categorias)
+    reverse = (ordem == "recentes")
+
+    # Ordena apenas a categoria clicada
+    if categoria in historico_emails:
+        historico_emails[categoria] = sorted(
+            historico_emails[categoria],
+            key=lambda x: x["data_hora"],
+            reverse=reverse
+        )
+
     ultima_classificacao = obter_ultima_classificacao(historico_emails)
 
     return render_template(
         "index.html",
-        historico=historico_ordenado,
+        historico=historico_emails,
         resultado=ultima_classificacao
     )
 
