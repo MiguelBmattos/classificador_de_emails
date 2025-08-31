@@ -123,19 +123,8 @@ button:hover {
     margin-bottom: 10px;
 }
 
-.sort-buttons {
-    display: flex;
-    gap: 5px;
-}
-
-/* Garante largura consistente dos botões de ordenação */
-.sort-buttons button {
-    min-width: 100px;     
-    max-width: 120px;     
-    padding: 8px 12px;    
-    text-align: center;   
-    white-space: nowrap;  
-}
+/* Remove referências a botões de ordenação */
+/* .sort-buttons { ... } e estilos de botão foram removidos */
 
 .categoria-box::-webkit-scrollbar {
     width: 8px;

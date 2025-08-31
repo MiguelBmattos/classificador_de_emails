@@ -48,18 +48,6 @@
                 <div class="categoria-box produtivo">
                     <div class="categoria-header">
                         <h3>✅ Produtivos</h3>
-                        <div class="sort-buttons">
-                            <form action="/ordenar" method="post">
-                                <input type="hidden" name="categoria" value="Produtivo">
-                                <input type="hidden" name="ordem" value="recentes">
-                                <button type="submit">Mais Recentes</button>
-                            </form>
-                            <form action="/ordenar" method="post">
-                                <input type="hidden" name="categoria" value="Produtivo">
-                                <input type="hidden" name="ordem" value="antigos">
-                                <button type="submit">Mais Antigos</button>
-                            </form>
-                        </div>
                     </div>
                     {% if historico['Produtivo'] %}
                         {% for email in historico['Produtivo'] %}
@@ -78,18 +66,6 @@
                 <div class="categoria-box improdutivo">
                     <div class="categoria-header">
                         <h3>❌ Improdutivos</h3>
-                        <div class="sort-buttons">
-                            <form action="/ordenar" method="post">
-                                <input type="hidden" name="categoria" value="Improdutivo">
-                                <input type="hidden" name="ordem" value="recentes">
-                                <button type="submit">Mais Recentes</button>
-                            </form>
-                            <form action="/ordenar" method="post">
-                                <input type="hidden" name="categoria" value="Improdutivo">
-                                <input type="hidden" name="ordem" value="antigos">
-                                <button type="submit">Mais Antigos</button>
-                            </form>
-                        </div>
                     </div>
                     {% if historico['Improdutivo'] %}
                         {% for email in historico['Improdutivo'] %}
@@ -122,6 +98,6 @@
             second: '2-digit'
         });
     });
-</script>
+    </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from datetime import datetime
+from datetime import datetime, timezone
 import os
 from services import (
     ler_arquivo,
@@ -11,20 +11,16 @@ from services import (
 
 app = Flask(__name__)
 
-# Mantém a ordenação atual de cada categoria (True = mais recentes no topo)
-ordenacao_categorias = {"Produtivo": True, "Improdutivo": True}
-
 @app.route("/", methods=["GET"])
 def home():
     historico_emails = carregar_historico()
-    historico_ordenado = {}
-    # Aplica a ordenação atual de cada categoria
-    for cat in ["Produtivo", "Improdutivo"]:
-        historico_ordenado[cat] = sorted(
-            historico_emails.get(cat, []),
-            key=lambda x: x["data_hora"],
-            reverse=ordenacao_categorias[cat]
-        )
+    # Ordena cada categoria com os mais recentes no topo
+    historico_ordenado = {
+        "Produtivo": sorted(historico_emails.get("Produtivo", []),
+                            key=lambda x: x["data_hora"], reverse=True),
+        "Improdutivo": sorted(historico_emails.get("Improdutivo", []),
+                              key=lambda x: x["data_hora"], reverse=True)
+    }
     ultima_classificacao = obter_ultima_classificacao(historico_emails)
     return render_template(
         "index.html",
@@ -44,21 +40,20 @@ def classificar():
     email_atual = {
         "texto": texto,
         "resposta": resposta,
-        "data_hora": datetime.now(),
+        "data_hora": datetime.now(timezone.utc),
         "categoria": categoria
     }
 
     historico_emails = carregar_historico()
     adicionar_email(historico_emails, categoria, email_atual)
 
-    # Ordena cada categoria de acordo com o estado atual
-    historico_ordenado = {}
-    for cat in ["Produtivo", "Improdutivo"]:
-        historico_ordenado[cat] = sorted(
-            historico_emails.get(cat, []),
-            key=lambda x: x["data_hora"],
-            reverse=ordenacao_categorias[cat]
-        )
+    # Ordena sempre os mais recentes primeiro
+    historico_ordenado = {
+        "Produtivo": sorted(historico_emails.get("Produtivo", []),
+                            key=lambda x: x["data_hora"], reverse=True),
+        "Improdutivo": sorted(historico_emails.get("Improdutivo", []),
+                              key=lambda x: x["data_hora"], reverse=True)
+    }
 
     ultima_classificacao = obter_ultima_classificacao(historico_emails)
 
@@ -66,32 +61,6 @@ def classificar():
         "index.html",
         resultado=ultima_classificacao,
         historico=historico_ordenado
-    )
-
-@app.route("/ordenar", methods=["POST"])
-def ordenar():
-    categoria = request.form.get("categoria")
-    ordem = request.form.get("ordem", "recentes")
-
-    historico_emails = carregar_historico()
-    # Atualiza a ordenação apenas da categoria clicada
-    ordenacao_categorias[categoria] = (ordem == "recentes")
-
-    # Ordena todas as categorias de acordo com o estado atual
-    historico_ordenado = {}
-    for cat in ["Produtivo", "Improdutivo"]:
-        historico_ordenado[cat] = sorted(
-            historico_emails.get(cat, []),
-            key=lambda x: x["data_hora"],
-            reverse=ordenacao_categorias[cat]
-        )
-
-    ultima_classificacao = obter_ultima_classificacao(historico_emails)
-
-    return render_template(
-        "index.html",
-        historico=historico_ordenado,
-        resultado=ultima_classificacao
     )
 
 if __name__ == "__main__":
