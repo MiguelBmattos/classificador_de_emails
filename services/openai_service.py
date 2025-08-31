@@ -14,7 +14,7 @@ AGENTE_FIXO = {
         "Sempre siga o formato exato:\n"
         "Categoria: <Produtivo/Improdutivo>\n"
         "Definições:\n" 
-        "'Produtivo': emails que pedem informações, atualizações de pedidos, status, suporte, dúvidas, " 
+        "'Produtivo': emails que pedem informações, atualizações de pedidos, status, suporte, dúvidas, envio de documentos importantes, " 
         "ou tratam de assuntos relevantes ao relacionamento com a empresa.\n" 
         "'Improdutivo': emails irrelevantes, spam, propaganda, ou mensagens sem relação com o negócio.\n"
         "Resposta: <Para um email produtivo escreva uma resposta completa, detalhada e clara. Para um email improdutivo dê uma resposta completa e clara mas sem se estender muito>"
