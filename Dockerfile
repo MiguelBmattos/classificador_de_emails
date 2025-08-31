@@ -20,5 +20,5 @@ ENV FLASK_ENV=production
 # Expõe a porta que o Render vai usar
 EXPOSE 10000
 
-# Comando para iniciar a aplicação com gunicorn
-CMD ["gunicorn", "app:app", "-b", "0.0.0.0:10000", "--workers=4"]
+# Start command para Gunicorn
+CMD ["gunicorn", "app:app", "-b", "0.0.0.0:$PORT", "--workers=4"]
