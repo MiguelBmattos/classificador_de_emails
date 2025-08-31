@@ -3,15 +3,18 @@ from datetime import datetime, timezone
 
 HISTORICO_FILE = "historico.json"
 
-
 def carregar_historico():
-    """Carrega o histórico do arquivo JSON, convertendo as datas para datetime."""
+    """Carrega o histórico do arquivo JSON, convertendo as datas para datetime aware (UTC)."""
     try:
         with open(HISTORICO_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)
             for categoria in data:
                 for email in data[categoria]:
-                    email["data_hora"] = datetime.fromisoformat(email["data_hora"])
+                    dt = datetime.fromisoformat(email["data_hora"])
+                    # Se datetime for naive, adiciona UTC
+                    if dt.tzinfo is None:
+                        dt = dt.replace(tzinfo=timezone.utc)
+                    email["data_hora"] = dt
             return data
     except FileNotFoundError:
         # Estrutura padrão
@@ -33,7 +36,9 @@ def salvar_historico(historico):
 
 def adicionar_email(historico, categoria, email):
     """Adiciona um novo email ao histórico e salva no arquivo."""
+    # Força UTC
     email["data_hora"] = datetime.now(timezone.utc)
+    
     if categoria in historico:
         historico[categoria].append(email)
     else:
