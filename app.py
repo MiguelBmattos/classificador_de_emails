@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime, timezone
 import os
 from services import (
@@ -47,21 +47,8 @@ def classificar():
     historico_emails = carregar_historico()
     adicionar_email(historico_emails, categoria, email_atual)
 
-    # Ordena sempre os mais recentes primeiro
-    historico_ordenado = {
-        "Produtivo": sorted(historico_emails.get("Produtivo", []),
-                            key=lambda x: x["data_hora"], reverse=True),
-        "Improdutivo": sorted(historico_emails.get("Improdutivo", []),
-                              key=lambda x: x["data_hora"], reverse=True)
-    }
-
-    ultima_classificacao = obter_ultima_classificacao(historico_emails)
-
-    return render_template(
-        "index.html",
-        resultado=ultima_classificacao,
-        historico=historico_ordenado
-    )
+    # Redireciona para a página principal para evitar duplicação
+    return redirect(url_for("home"))
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
