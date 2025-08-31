@@ -34,7 +34,7 @@
                 <p><strong>Email inserido:</strong> {{ resultado.texto }}</p>
                 <p><strong>Categoria:</strong> {{ resultado.categoria }}</p>
                 <p><strong>Resposta:</strong> {{ resultado.resposta }}</p>
-                <small><em>{{ resultado.data_hora.strftime('%d/%m/%Y %H:%M:%S') }}</em></small>
+                <small class="email-date" data-utc="{{ resultado.data_hora.isoformat() }}"></small>
             </div>
             {% endif %}
         </div>
@@ -66,7 +66,7 @@
                         <div class="email-box">
                             <strong>Email:</strong> {{ email.texto|e }}<br>
                             <strong>Resposta:</strong> {{ email.resposta|e }}
-                            <small><em>{{ email.data_hora.strftime('%d/%m/%Y %H:%M:%S') }}</em></small>
+                            <small class="email-date" data-utc="{{ email.data_hora.isoformat() }}"></small>
                         </div>
                         {% endfor %}
                     {% else %}
@@ -96,7 +96,7 @@
                         <div class="email-box">
                             <strong>Email:</strong> {{ email.texto|e }}<br>
                             <strong>Resposta:</strong> {{ email.resposta|e }}
-                            <small><em>{{ email.data_hora.strftime('%d/%m/%Y %H:%M:%S') }}</em></small>
+                            <small class="email-date" data-utc="{{ email.data_hora.isoformat() }}"></small>
                         </div>
                         {% endfor %}
                     {% else %}
@@ -107,5 +107,21 @@
         </div>
         {% endif %}
     </main>
+
+    <script>
+    // Converte todas as datas da classe "email-date" para o horário local do usuário
+    document.querySelectorAll('.email-date').forEach(el => {
+        const utcDateStr = el.getAttribute('data-utc'); // ISO string em UTC
+        const date = new Date(utcDateStr); // Converte para objeto Date
+        el.textContent = date.toLocaleString('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+    });
+</script>
 </body>
 </html>

@@ -1,33 +1,33 @@
 from flask import Flask, render_template, request
 from datetime import datetime
-from services import ler_arquivo, gerar_classificacao_e_resposta, carregar_historico, adicionar_email, ordenar_historico
-
+import os
+from services import (
+    ler_arquivo,
+    gerar_classificacao_e_resposta,
+    carregar_historico,
+    adicionar_email,
+    ordenar_historico,
+    obter_ultima_classificacao
+)
 
 app = Flask(__name__)
-
-# Carrega histórico do arquivo JSON
-historico_emails = carregar_historico()
 
 # Ordenação por categoria (True = mais recentes no topo)
 ordenacao_categorias = {"Produtivo": True, "Improdutivo": True}
 
-# Última classificação
-ultima_classificacao = None
-
-
 @app.route("/", methods=["GET"])
 def home():
+    historico_emails = carregar_historico()
     historico_ordenado = ordenar_historico(historico_emails, ordenacao_categorias)
+    ultima_classificacao = obter_ultima_classificacao(historico_emails)
     return render_template(
         "index.html",
         historico=historico_ordenado,
         resultado=ultima_classificacao
     )
 
-
 @app.route("/classificar", methods=["POST"])
 def classificar():
-    global ultima_classificacao
     texto = request.form.get("email_texto", "")
     arquivo = request.files.get("email_arquivo")
     if arquivo:
@@ -42,17 +42,17 @@ def classificar():
         "categoria": categoria
     }
 
-    # Adiciona email usando o historico_service
+    historico_emails = carregar_historico()
     adicionar_email(historico_emails, categoria, email_atual)
 
-    ultima_classificacao = email_atual.copy()
     historico_ordenado = ordenar_historico(historico_emails, ordenacao_categorias)
+    ultima_classificacao = obter_ultima_classificacao(historico_emails)
+
     return render_template(
         "index.html",
         resultado=ultima_classificacao,
         historico=historico_ordenado
     )
-
 
 @app.route("/ordenar", methods=["POST"])
 def ordenar():
@@ -62,13 +62,16 @@ def ordenar():
     if categoria in ordenacao_categorias:
         ordenacao_categorias[categoria] = (ordem == "recentes")
 
+    historico_emails = carregar_historico()
     historico_ordenado = ordenar_historico(historico_emails, ordenacao_categorias)
+    ultima_classificacao = obter_ultima_classificacao(historico_emails)
+
     return render_template(
         "index.html",
         historico=historico_ordenado,
         resultado=ultima_classificacao
     )
 
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
