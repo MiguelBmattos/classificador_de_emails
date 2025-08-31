@@ -21,4 +21,4 @@ ENV FLASK_ENV=production
 EXPOSE 10000
 
 # Start command para Gunicorn
-CMD ["gunicorn", "app:app", "-b", "0.0.0.0:$PORT", "--workers=4"]
+CMD sh -c "gunicorn app:app -b 0.0.0.0:$PORT --workers 4"
