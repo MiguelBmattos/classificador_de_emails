@@ -49,7 +49,7 @@ def classificar():
         # Se houver arquivo, o texto lido é adicionado ao que já existia
         texto += "\n" + ler_arquivo(arquivo)
 
-    # Aqui chamamos a inteligência artificial para classificar o texto
+    # Aqui chamamos a inteligência artificial para classificar o email
     # e gerar uma resposta automática
     categoria, resposta = gerar_classificacao_e_resposta(texto)
 
