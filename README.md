@@ -25,7 +25,7 @@ A aplicação foi desenvolvida em **Python com Flask** para o backend e **HTML/C
 
 ---
 
-## Link para rodar na nuvem(talvez demore uns minutinhos para iniciar)
+## Link para rodar na nuvem (talvez demore uns minutinhos para iniciar)
 
 https://desafio-1-l7af.onrender.com
 
