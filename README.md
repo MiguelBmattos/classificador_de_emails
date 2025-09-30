@@ -36,7 +36,7 @@ https://desafio-1-l7af.onrender.com
 - Python 3.11+
 - pip
 - Conta na OpenAI e chave de API (variável de ambiente `DESAFIO_KEY`)
-- OBS: Caso queira rodar localmente precisa ter uma chave da API da OpenAI(na nuvem roda pois é a minha chave que está sendo usada lá).
+- OBS: Caso queira rodar localmente precisa ter uma chave da API da OpenAI (na nuvem roda pois é a minha chave que está sendo usada lá).
     Para usar sua chave para rodar localmente crie uma variável de sistema com o nome `DESAFIO_KEY` e no valor da  variável cole a chave.
     Ou se preferir bote a chave direto no código, no arquivo ```openai_service.py``` nesta parte do código: ```openai.api_key = 'Sua chave vai aqui'```
 
